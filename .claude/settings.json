@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -g pixelWidth -g pixelHeight thumbnails/catphoto.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight thumbnails/18.jpg)",
+      "Bash(sips -r 90 ../assets/photo-venue-tmp.jpg --out ../assets/photo-venue.jpg)",
+      "Bash(sips -Z 700 bg-collage.jpg --out ../assets/bg-collage.jpg)",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8765/index.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --window-size=390,844 --screenshot=/tmp/shot-gate.png http://localhost:8765/index.html)",
+      "Bash(:)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=390,2400 --screenshot=/tmp/full1.png http://localhost:8765/index.html?preview=1)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=390,844 --screenshot=/tmp/sec-cover.png 'http://localhost:8765/index.html?preview=1&y=0')",
+      "Bash(node shoot.mjs 1560 2360 3960)",
+      "Bash(sips -r 270 deco-dj-crowd.png --out deco-dj-crowd.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight deco-dj-crowd.png)",
+      "Bash(sips -r 180 deco-dj-crowd.png --out deco-dj-crowd.png)",
+      "Bash(node shoot.mjs 1560 2160)",
+      "Bash(node shoot.mjs 0 4560 5360)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1100,760 --screenshot=/tmp/desktop.png 'http://localhost:8765/index.html?preview=1&y=0')",
+      "Bash(node shoot.mjs 0 700 1400 2100 2800 3500 4200 4900 5600 6300)",
+      "Bash(pkill -f \"http.server 8765\")",
+      "Bash(pkill -f \"remote-debugging-port\")"
+    ]
+  }
+}

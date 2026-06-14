@@ -1,0 +1,859 @@
+/* ============================================================= */
+/*  George & Pooja — Wedding Website                              */
+/*  Mobile-first, single scrollable page                          */
+/* ============================================================= */
+
+:root {
+  /* Reds */
+  --maroon-bg: #7c1414;      /* dark section background */
+  --maroon-bg-2: #6f1111;    /* slightly deeper */
+  --red: #9e1b1b;            /* headings & illustrations on light */
+  --red-deep: #8b1414;
+  --red-send: #9b1717;
+
+  /* Lights */
+  --pink-bg: #f1e9f3;        /* soft lilac textured */
+  --pink-bg-2: #f7eff7;
+  --cream: #fbf6fb;
+  --paper: #f4f1ea;          /* RSVP paper */
+
+  /* Text */
+  --ink: #5a1414;
+  --on-red: #f6e6e8;         /* light text on red */
+  --on-red-soft: #eccdd1;
+
+  --col-w: 430px;
+  --display: "Playfair Display", Georgia, serif;
+  --body: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-x: hidden; }
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  font-weight: 300;
+  color: var(--ink);
+  background: #1a0a0a;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+body.locked { overflow: hidden; height: 100vh; }
+
+img { display: block; max-width: 100%; }
+
+/* ============================================================= */
+/*  Faint Goa scrapbook collage behind the centered column       */
+/* ============================================================= */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #d9d4cf url("./assets/bg-collage.jpg") repeat center top;
+  background-size: 320px auto;
+  filter: grayscale(1) brightness(1.02) contrast(0.95);
+  opacity: 0.85;
+}
+.page-bg::after { /* soft side vignette for a premium framed feel */
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(20,10,10,0.28) 0%, rgba(20,10,10,0.05) 22%, rgba(20,10,10,0.05) 78%, rgba(20,10,10,0.28) 100%);
+}
+
+/* ============================================================= */
+/*  Central content column                                        */
+/* ============================================================= */
+.site { position: relative; z-index: 1; }
+
+.column {
+  width: calc(100% - 60px);   /* leave ~30px of Goa collage on each side */
+  max-width: var(--col-w);
+  margin: 0 auto;
+  background: var(--pink-bg);
+  box-shadow: 0 0 28px rgba(40,12,12,0.5);
+  overflow: hidden;
+}
+
+/* Paper-grain texture overlay for light sections */
+.sec--light,
+.sec--cover,
+.sec--closing { position: relative; }
+
+.sec { position: relative; overflow: hidden; }
+.sec__pad { padding: 30px 20px; position: relative; }
+
+/* Light vs red sections */
+.sec--light, .sec--cover { background: var(--pink-bg); }
+.sec--cover {
+  background:
+    radial-gradient(120% 80% at 50% 30%, var(--pink-bg-2), var(--pink-bg) 70%);
+}
+.sec--red { background: var(--maroon-bg); color: var(--on-red); }
+.sec--rsvp { background: var(--paper); }
+
+/* subtle paper grain on light panels */
+.sec--light::before,
+.sec--cover::before,
+.sec--rsvp::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(rgba(140,110,140,0.05) 1px, transparent 1px);
+  background-size: 3px 3px;
+  z-index: 0;
+}
+
+/* ============================================================= */
+/*  Typography                                                    */
+/* ============================================================= */
+.h-display {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+.body {
+  font-weight: 300;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  margin: 14px 0;
+}
+.body--center { text-align: center; }
+.body--right { text-align: right; }
+
+.sec--red .h-display { color: var(--on-red); font-weight: 600; }
+.sec--light .h-display, .sec--cover .h-display { color: var(--red); }
+
+.deco { pointer-events: none; -webkit-user-select: none; user-select: none; position: absolute; }
+
+/* ============================================================= */
+/*  Checkerboard / diamond / scallop strips                       */
+/* ============================================================= */
+.checker-strip {
+  height: 30px;
+  background:
+    repeating-conic-gradient(var(--red-deep) 0% 25%, transparent 0% 50%)
+    50% / 30px 30px;
+  position: relative;
+}
+/* the conic trick needs a white base so transparent reads as white edge */
+.checker-strip {
+  background-color: transparent;
+  background-image:
+    linear-gradient(45deg, var(--red-deep) 25%, transparent 25%, transparent 75%, var(--red-deep) 75%),
+    linear-gradient(45deg, var(--red-deep) 25%, transparent 25%, transparent 75%, var(--red-deep) 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+.checker-strip--down { margin-bottom: 6px; }
+.checker-strip--up   { margin-top: 6px; }
+
+/* On red sections the "white" of the checker should be the pink/cream */
+.sec--red .checker-strip,
+.checker-strip--down,
+.checker-strip--up {
+  background-color: var(--pink-bg);
+}
+
+/* Row of red diamonds on pink (harlequin border) */
+.diamond-strip {
+  height: 80px;
+  background-color: var(--pink-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0 L40 20 L20 40 L0 20 Z' fill='%237c1414'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  background-repeat: repeat;
+}
+
+/* Top edge of accommodation: light diamonds hanging on red */
+.scallop-strip {
+  height: 36px;
+  background-color: var(--maroon-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0 L40 20 L20 40 L0 20 Z' fill='%23f1e9f3'/%3E%3C/svg%3E");
+  background-size: 40px 36px;
+  background-repeat: repeat-x;
+  background-position: center top;
+}
+
+/* ============================================================= */
+/*  Foil pill buttons                                             */
+/* ============================================================= */
+.btn-wrap { text-align: center; margin: 26px 0 6px; position: relative; }
+.foil-btn {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--red);
+  text-decoration: none;
+  padding: 18px 46px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 46%),
+    linear-gradient(120deg, #e7c8e4 0%, #f7ecf6 20%, #efd4ec 40%, #fdf7fd 58%, #ecd0ea 80%, #f5e9f5 100%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25), inset 0 1px 6px rgba(255,255,255,0.7);
+  letter-spacing: 0.02em;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.foil-btn:hover, .foil-btn:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3), inset 0 1px 6px rgba(255,255,255,0.7);
+  outline: none;
+}
+
+/* ============================================================= */
+/*  1. COVER                                                      */
+/* ============================================================= */
+.sec--cover { padding: 26px 0 0; }
+.cover__title {
+  font-family: var(--display);
+  color: var(--red);
+  font-weight: 800;
+  text-align: right;
+  font-size: clamp(1.8rem, 8.5vw, 2.3rem);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  padding: 10px 22px 0;
+}
+.cover__letter {
+  position: absolute;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--red);
+  z-index: 3;
+}
+.cover__letter--p { left: 30px; top: 96px; }
+.cover__letter--g { right: 34px; top: 470px; }
+.cover__heart { width: 34px; height: auto; z-index: 3; }
+.cover__heart--p { left: 30px; top: 138px; }
+.cover__heart--g { right: 64px; top: 452px; }
+
+.cover__hands { width: 112px; right: 4px; top: 120px; z-index: 1; }
+
+.cover__photo-wrap {
+  width: 250px;
+  max-width: 64%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.cover__photo {
+  width: 100%;
+  height: auto;
+  /* 19.png already includes the oval frame — no extra border needed */
+}
+/* Names row: coupes (left) and cat (right) flank the centered names, behind the text */
+.cover__namerow {
+  position: relative;
+  margin: 16px 0 8px;
+  min-height: 118px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cover__coupes { width: 96px; left: 0; bottom: 4px; z-index: 1; }
+.cover__cat { width: 84px; right: 0; bottom: 0; z-index: 1; }
+
+.cover__names { text-align: center; position: relative; z-index: 3; }
+.cover__couple {
+  font-family: var(--display);
+  font-weight: 800;
+  color: var(--red);
+  font-size: clamp(1.7rem, 8vw, 2.05rem);
+  margin: 0;
+}
+.cover__date {
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--red);
+  font-size: 1.7rem;
+  margin: 2px 0 0;
+}
+.sec--cover .checker-strip { margin-top: 6px; }
+
+/* ============================================================= */
+/*  2. WE LOVE YOU SO MUCH                                        */
+/* ============================================================= */
+.love__title { text-align: left; font-size: clamp(1.85rem, 8.6vw, 2.3rem); line-height: 1.05; }
+.love__line1 { display: block; }
+.love__line2 { display: block; text-align: right; }
+.love__dice { width: 130px; left: 8px; top: 150px; z-index: 1; }
+.love__copy { margin-left: 38%; font-size: 0.86rem; color: var(--on-red); position: relative; z-index: 2; }
+.love__feet { width: 56px; right: 18px; top: 230px; }
+
+/* calendar */
+.cal { margin: 26px 0 10px; border: 1px solid rgba(246,230,232,0.4); position: relative; }
+.cal__head, .cal__row { display: grid; grid-template-columns: 0.7fr 1fr 1fr 1fr; }
+.cal__head span {
+  padding: 12px 6px;
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--on-red);
+  border-right: 1px solid rgba(246,230,232,0.35);
+  border-bottom: 1px solid rgba(246,230,232,0.35);
+}
+.cal__head span:first-child { font-size: 0.9rem; }
+.cal__row { min-height: 120px; }
+.cal__num {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  font-family: var(--display);
+  font-size: 4rem;
+  color: var(--on-red);
+  border-right: 1px solid rgba(246,230,232,0.35);
+}
+.cal__num:first-child { grid-column: 2; }
+.cal__num--mark { color: #f3c9da; }
+.cal__check {
+  position: absolute;
+  font-size: 5rem;
+  color: #e7a6c4;
+  transform: rotate(-12deg);
+  left: 6px; top: -6px;
+  opacity: 0.9;
+  font-family: var(--body);
+}
+.cal__gandhi { width: 46px; left: 50%; bottom: -2px; transform: translateX(-150%); }
+
+.love__rsvp { text-align: center; font-size: clamp(2rem, 9vw, 2.4rem); margin-top: 30px; font-weight: 600; }
+.love__rsvp-copy { text-align: center; color: var(--on-red); font-size: 0.86rem; }
+
+/* ============================================================= */
+/*  3. VENUE + TIMELINE                                           */
+/* ============================================================= */
+.venue__head { position: relative; text-align: center; margin-top: 8px; }
+.venue__title { font-size: clamp(2rem, 9.5vw, 2.6rem); letter-spacing: 0.06em; }
+.venue__cherries { width: 84px; right: 0; top: -16px; }
+.venue__sparkle { width: 40px; left: 0; bottom: -60px; }
+
+.polaroid {
+  width: 78%;
+  margin: 30px auto 0;
+  background: #fff;
+  padding: 8px 8px 10px;
+  transform: rotate(-4deg);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+}
+.polaroid__img { width: 100%; filter: grayscale(1) contrast(1.05); }
+
+.venue__addr {
+  text-align: center;
+  color: var(--red);
+  font-weight: 400;
+  margin: 30px 0 6px;
+  font-size: 0.95rem;
+}
+.venue__addr strong { font-weight: 600; }
+
+.divider { position: static; display: block; width: 70%; margin: 8px auto; }
+
+.timeline__title {
+  text-align: center;
+  font-size: clamp(1.7rem, 8.2vw, 2.2rem);
+  letter-spacing: 0.04em;
+  margin: 6px 0 10px;
+}
+
+/* snake timeline — fixed 360x540 design space, scaled by JS to fit the column */
+.timeline { position: relative; width: 100%; margin: 10px auto 0; height: 540px; }
+.timeline__inner { position: absolute; left: 0; top: 0; width: 360px; height: 540px; transform-origin: top left; }
+.timeline__path { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tl-node { position: absolute; left: var(--x); top: var(--y); }
+.tl-dot {
+  position: absolute; left: -7px; top: -7px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--red);
+  z-index: 3;
+}
+.tl-label { position: absolute; white-space: nowrap; line-height: 1.12; z-index: 3; }
+.tl-label--left        { right: 18px; top: -18px; text-align: right; }
+.tl-label--right       { left: 18px;  top: -18px; text-align: left; }
+.tl-label--above       { left: 50%; transform: translateX(-50%); bottom: 14px; text-align: center; }
+.tl-label--above-left  { right: -2px; bottom: 14px; text-align: center; }
+.tl-label--below       { left: 50%; transform: translateX(-50%); top: 14px; text-align: center; }
+.tl-time { display: block; font-family: var(--display); font-weight: 700; color: var(--ink); font-size: 17px; }
+.tl-name { display: block; font-size: 12.5px; color: var(--ink); }
+.tl-time--accent, .tl-name--accent { color: var(--red); font-weight: 600; }
+.tl-name--accent { font-weight: 500; }
+
+.tl-art { position: absolute; }
+.tl-art--party { width: 128px; right: 4px; top: 86px; }
+.tl-art--dj { width: 150px; left: 0; top: 344px; }
+
+/* ============================================================= */
+/*  4. ACCOMMODATION / TRANSPORT / GIFTS                          */
+/* ============================================================= */
+.sec--accom .accom__title { text-align: center; font-size: clamp(1.5rem, 7.4vw, 1.95rem); letter-spacing: 0.06em; margin-top: 18px; font-weight: 600; }
+.divider--light { filter: brightness(2.2) saturate(0.4); opacity: 0.7; }
+
+.gift {
+  position: relative;
+  margin-top: 34px;
+  padding: 40px 34px 34px;
+  border: 1.6px solid rgba(241,233,243,0.5);
+  border-radius: 12px;
+}
+.gift__bow {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  height: 50px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.gift__bow img {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  filter: brightness(1.7) saturate(0.6);
+}
+.gift__content { position: relative; z-index: 1; }
+.gift__title { text-align: center; font-size: 1.7rem; letter-spacing: 0.06em; margin: 30px 0 0; font-weight: 600; }
+.gift__links { text-align: center; margin-top: 18px; }
+.upi-link {
+  font-family: var(--display);
+  font-weight: 600;
+  color: var(--on-red);
+  text-decoration: none;
+  line-height: 2;
+  border-bottom: 1px solid rgba(246,230,232,0.4);
+}
+.upi-link:hover { color: #fff; }
+
+/* ============================================================= */
+/*  5. GUEST CHAT                                                 */
+/* ============================================================= */
+.sec--chat { padding-top: 10px; }
+.chat__title { text-align: center; font-size: clamp(1.5rem, 7.4vw, 1.95rem); letter-spacing: 0.06em; margin-top: 18px; font-weight: 600; }
+.chat__btn-wrap { display: inline-flex; width: 100%; justify-content: center; align-items: center; }
+.chat__envelope { width: 56px; height: 42px; margin-left: -8px; transform: translateY(-26px) rotate(8deg); }
+
+/* ============================================================= */
+/*  6. CONTACT + 7. CELEBRATE                                     */
+/* ============================================================= */
+.sec--contact { padding-top: 6px; }
+.contact__title { text-align: center; font-size: clamp(1.7rem, 8vw, 2rem); letter-spacing: 0.06em; margin-top: 30px; }
+.contact__sparkle { width: 44px; }
+.contact__sparkle--l { left: 10px; top: 70px; }
+.contact__sparkle--r { right: 18px; top: 150px; }
+.sec--contact .tel { color: var(--red); text-decoration: none; }
+.sec--contact .tel:hover { text-decoration: underline; }
+.contact__bucket { position: static; display: block; width: 180px; margin: 6px auto 0; }
+
+.celebrate { padding-top: 6px; }
+.celebrate__title {
+  text-align: left;
+  color: var(--red);
+  font-size: clamp(1.85rem, 8.6vw, 2.35rem);
+  line-height: 1.04;
+  letter-spacing: 0.01em;
+  margin-bottom: 18px;
+}
+/* clean premium polaroid (curtain frame removed) */
+.celebrate-photo {
+  width: 76%;
+  margin: 6px auto 0;
+  background: #fff;
+  padding: 12px 12px 16px;
+  border-radius: 3px;
+  box-shadow: 0 12px 30px rgba(60,16,24,0.28);
+  transform: rotate(-2.2deg);
+}
+.celebrate-photo__img {
+  display: block;
+  width: 100%;
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* ============================================================= */
+/*  8. CLOSING                                                    */
+/* ============================================================= */
+.sec--closing { padding: 0; background: transparent; }
+/* Goa beach finale photo (18.png) below the panel */
+.closing__beach {
+  display: block;
+  width: 100%;
+  filter: grayscale(1) contrast(1.05);
+}
+.closing__panel {
+  position: relative;
+  background: var(--pink-bg-2);
+  padding: 30px 26px 40px;
+  text-align: center;
+  overflow: hidden;
+}
+.closing__soon {
+  font-family: var(--display);
+  color: var(--red);
+  font-size: 2rem;
+  margin: 0 0 14px;
+}
+.closing__art { position: relative; height: 150px; }
+.closing__car { width: 200px; left: 50%; top: -20px; transform: translateX(-58%); }
+.closing__cat { width: 78px; right: 40px; top: 60px; }
+.closing__monogram {
+  font-family: var(--display);
+  font-weight: 800;
+  color: var(--red);
+  font-size: 2.6rem;
+  letter-spacing: 0.08em;
+  margin: 6px 0 0;
+  position: relative; z-index: 2;
+}
+.closing__hearts { width: 80px; opacity: 0.5; }
+.closing__hearts--l { left: 6px; bottom: 10px; }
+.closing__hearts--r { right: 6px; bottom: 50px; }
+
+/* ============================================================= */
+/*  9. RSVP FORM                                                  */
+/* ============================================================= */
+.sec--rsvp { background: var(--paper); }
+.rsvp__logo {
+  font-family: var(--display);
+  font-weight: 700;
+  text-align: center;
+  color: var(--red);
+  font-size: clamp(2.6rem, 13vw, 3.4rem);
+  letter-spacing: 0.04em;
+  margin: 10px 0 24px;
+}
+.rsvp__logo { font-style: italic; }
+
+.rsvp-form { position: relative; z-index: 1; }
+.field { margin-bottom: 22px; min-width: 0; }
+.field--full { width: 100%; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.field label {
+  display: block;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  margin-bottom: 6px;
+}
+.field input, .field textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1.5px solid var(--red);
+  background: transparent;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  padding: 6px 2px;
+  border-radius: 0;
+}
+.field input:focus, .field textarea:focus { outline: none; border-bottom-color: #5a1414; box-shadow: 0 1px 0 #5a1414; }
+.field textarea { resize: vertical; }
+.field input.invalid, .field textarea.invalid { border-bottom-color: #d33; }
+
+.rsvp-form__status { text-align: center; color: var(--red); font-weight: 400; min-height: 1.2em; margin: 4px 0; }
+.rsvp-form__footer { text-align: center; margin-top: 10px; }
+.send-btn {
+  background: var(--red-send);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+  border: none;
+  padding: 12px 40px;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.send-btn:hover, .send-btn:focus-visible { background: #7d1212; transform: translateY(-1px); outline: none; }
+
+.rsvp-doodles {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2px;
+  margin-top: 18px;
+  opacity: 0.92;
+}
+.rsvp-doodles__item { position: static; width: 17%; height: auto; }
+.rsvp-doodles__item--wide { width: 22%; }
+.rsvp-doodles__item--small { width: 11%; }
+.rsvp-doodles__flip { transform: scaleX(-1); }
+
+/* ============================================================= */
+/*  ENTRY GATE                                                    */
+/* ============================================================= */
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 90% at 50% 40%, var(--pink-bg-2), var(--pink-bg) 60%, #e9dcea 100%);
+  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s ease, visibility .9s;
+}
+.gate.is-open { opacity: 0; transform: scale(1.14); filter: blur(10px); visibility: hidden; pointer-events: none; }
+/* brief glow flash on the whole gate the moment the nose is tapped */
+.gate.is-unlocking { animation: gateFlash .7s ease-out; }
+@keyframes gateFlash {
+  0% { background-color: transparent; }
+  18% { background-color: rgba(255,255,255,0.0); box-shadow: inset 0 0 120px rgba(255,235,245,0.6); }
+  100% { box-shadow: inset 0 0 0 rgba(255,235,245,0); }
+}
+
+/* heart / sparkle particles bursting from the nose */
+.gate-particle {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+  color: var(--red);
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  animation: gateBurst .95s cubic-bezier(.18,.7,.3,1) forwards;
+  text-shadow: 0 1px 2px rgba(124,20,20,0.25);
+}
+@keyframes gateBurst {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.3) rotate(0deg); }
+  22%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15) rotate(var(--r)); }
+}
+
+/* main site eases in behind the opening gate */
+.site--in { animation: siteIn 1.1s cubic-bezier(.16,1,.3,1) both; }
+@keyframes siteIn {
+  0%   { opacity: 0; transform: scale(.955); }
+  100% { opacity: 1; transform: none; }
+}
+
+.gate__inner { text-align: center; width: min(92vw, 440px); padding: 20px; }
+.gate__monogram {
+  font-family: var(--display);
+  font-weight: 800;
+  color: var(--red);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 18px;
+}
+.gate__catwrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  animation: catFloat 5s ease-in-out 1s infinite;
+}
+@keyframes catFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+.gate__cat {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(90,30,40,0.3);
+  animation: catEnter 1s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes catEnter {
+  0%   { opacity: 0; transform: scale(.86) translateY(16px); filter: blur(8px); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
+}
+.gate__cat.is-wink { animation: catCelebrate .7s cubic-bezier(.34,1.56,.64,1); }
+@keyframes catCelebrate {
+  0%   { transform: scale(1) rotate(0); }
+  30%  { transform: scale(.94) rotate(-1.5deg); filter: brightness(1.04); }
+  60%  { transform: scale(1.08) rotate(1.5deg); filter: brightness(1.1); }
+  100% { transform: scale(1.05) rotate(0); }
+}
+
+/* soft golden glow + twinkle sparkles drawing the eye to the ring */
+.gate__nose-glow {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,226,150,0.6), rgba(255,214,140,0) 68%);
+  animation: noseGlow 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes noseGlow {
+  0%, 100% { opacity: .3; transform: scale(.85); }
+  50%      { opacity: .85; transform: scale(1.18); }
+}
+.gate__spark {
+  position: absolute;
+  color: #caa24c;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 0 7px rgba(202,162,76,0.7);
+  animation: gateSpark 2.6s ease-in-out infinite;
+}
+@keyframes gateSpark {
+  0%, 100% { opacity: 0; transform: scale(.5) rotate(0); }
+  50%      { opacity: 1; transform: scale(1.1) rotate(25deg); }
+}
+.gate__spark--1 { top: 6%;  left: 8%;   font-size: 20px; animation-delay: 0s; }
+.gate__spark--2 { top: 14%; right: 9%;  font-size: 15px; animation-delay: .8s; }
+.gate__spark--3 { bottom: 16%; left: 11%; font-size: 17px; animation-delay: 1.5s; }
+.gate__spark--4 { bottom: 26%; right: 7%; font-size: 22px; animation-delay: 2.0s; }
+
+/* invisible, finger-friendly nose hotspot */
+.gate__nose {
+  position: absolute;
+  left: 38%;
+  top: 50%;
+  width: 24%;
+  height: 26%;
+  transform: translateY(-30%);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.gate__nose:focus-visible { outline: 2px dashed var(--red); outline-offset: 4px; }
+.gate__nose-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(158,27,27,0.4);
+  opacity: 0;
+}
+.gate.is-hinting .gate__nose-ring {
+  opacity: 1;
+  animation: nosePulse 1.4s ease-out infinite;
+}
+@keyframes nosePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(158,27,27,0.45); }
+  70%  { box-shadow: 0 0 0 26px rgba(158,27,27,0); }
+  100% { box-shadow: 0 0 0 0 rgba(158,27,27,0); }
+}
+
+.gate__hint {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--red);
+  font-family: var(--display);
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.gate.is-hinting .gate__hint { opacity: 1; }
+.gate__hint-arrow { font-size: 1.6rem; animation: bob 1s ease-in-out infinite; }
+.gate__hint-text { font-size: 0.95rem; letter-spacing: 0.04em; }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+
+.gate__tagline {
+  font-family: var(--body);
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+  margin: 26px 0 0;
+}
+.gate.is-hinting .gate__cat { animation: catWiggle 1.6s ease-in-out infinite; }
+@keyframes catWiggle { 25% { transform: rotate(-1.2deg); } 75% { transform: rotate(1.2deg); } }
+
+/* ============================================================= */
+/*  Premium scroll reveal — per-element cascade                    */
+/*  Uses the independent `translate` property so it composes with  */
+/*  any existing `transform` (polaroid rotate, deco centering…).   */
+/* ============================================================= */
+:root { --rv-ease: cubic-bezier(.16, 1, .3, 1); }
+
+/* content blocks: fade + rise + gentle de-blur */
+.rv {
+  opacity: 0;
+  translate: 0 30px;
+  filter: blur(7px);
+  transition:
+    opacity .85s var(--rv-ease) var(--rv-delay, 0ms),
+    translate .85s var(--rv-ease) var(--rv-delay, 0ms),
+    filter .85s var(--rv-ease) var(--rv-delay, 0ms);
+  will-change: opacity, translate, filter;
+}
+.rv.in { opacity: 1; translate: 0 0; filter: blur(0); }
+
+/* decorations: softer fade + small rise (keeps their own transform) */
+.rvd {
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 1.1s var(--rv-ease) var(--rv-delay, 0ms),
+    translate 1.1s var(--rv-ease) var(--rv-delay, 0ms);
+}
+.rvd.in { opacity: 1; translate: 0 0; }
+
+/* the cover should never be hidden if it's the first thing shown */
+.sec--cover .rv { transition-duration: .7s; }
+
+/* ============================================================= */
+/*  Premium ambient motion (gentle, continuous)                   */
+/*  Uses `transform` so it composes with the `translate`-based     */
+/*  reveal above.                                                  */
+/* ============================================================= */
+@keyframes floaty   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes floatyR  { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6px) rotate(3deg); } }
+@keyframes twinkle  { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.18); opacity: 1; } }
+@keyframes heartbeat{ 0%, 100% { transform: scale(1); } 14% { transform: scale(1.22); } 28% { transform: scale(1); } 42% { transform: scale(1.16); } }
+@keyframes swaywine { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+
+/* only animate once revealed, so the entry cascade stays clean */
+.cover__cat.in       { animation: floaty 4.6s ease-in-out infinite; }
+.cover__coupes.in    { animation: floatyR 5.4s ease-in-out infinite; transform-origin: bottom center; }
+.cover__hands.in     { animation: floaty 6s ease-in-out infinite .4s; }
+.cover__heart--p.in,
+.cover__heart--g.in  { animation: heartbeat 3.4s ease-in-out infinite; }
+.contact__sparkle.in { animation: twinkle 2.6s ease-in-out infinite; }
+.contact__sparkle--r.in { animation-delay: .9s; }
+.venue__sparkle.in   { animation: twinkle 3s ease-in-out infinite .5s; }
+.closing__cat.in     { animation: floaty 4.2s ease-in-out infinite .2s; }
+.closing__hearts.in  { animation: floaty 6.5s ease-in-out infinite; }
+.contact__bucket.in  { animation: swaywine 6s ease-in-out infinite; transform-origin: bottom center; }
+
+/* glossy sweep across the foil buttons */
+.foil-btn { position: relative; overflow: hidden; }
+.foil-btn::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: -70%;
+  width: 55%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.85), transparent);
+  transform: skewX(-18deg);
+  mix-blend-mode: screen;
+  animation: foilSweep 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes foilSweep { 0% { left: -70%; } 45%, 100% { left: 150%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv, .rvd { opacity: 1; translate: 0 0; filter: none; transition: none; }
+  .cover__cat.in, .cover__coupes.in, .cover__hands.in, .cover__heart--p.in,
+  .cover__heart--g.in, .contact__sparkle.in, .venue__sparkle.in, .closing__cat.in,
+  .closing__hearts.in, .contact__bucket.in, .foil-btn::after { animation: none; }
+  .gate.is-hinting .gate__cat,
+  .gate__hint-arrow,
+  .gate__catwrap,
+  .gate.is-hinting .gate__nose-ring { animation: none; }
+}
+
+/* ============================================================= */
+/*  Wider screens — column centered, collage bleeds on sides     */
+/* ============================================================= */
+@media (min-width: 600px) {
+  .page-bg { opacity: 0.9; }
+  .column { box-shadow: 0 0 80px rgba(0,0,0,0.45); }
+}
+@media (min-width: 480px) {
+  :root { --col-w: 440px; }
+}

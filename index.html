@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#7c1414" />
+  <title>George &amp; Pooja — 03.09.2026 · Goa</title>
+  <meta name="description" content="George & Pooja are getting married in Goa on 03.09.2026. Tap the cat's nose to enter." />
+
+  <!-- Google Fonts: Playfair Display (display serif) + Poppins (body sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="locked">
+
+  <!-- ============================================================= -->
+  <!-- 0. ENTRY GATE — tap the cat's nose to enter                    -->
+  <!-- ============================================================= -->
+  <div id="gate" class="gate" role="dialog" aria-modal="true" aria-label="Entry gate">
+    <div class="gate__inner">
+      <div class="gate__catwrap">
+        <img src="./assets/cat-gate.png" alt="A cat balancing George & Pooja's wedding ring on its nose" class="gate__cat" id="gateCat" />
+
+        <!-- twinkling sparkles around the cat -->
+        <span class="gate__spark gate__spark--1" aria-hidden="true">✦</span>
+        <span class="gate__spark gate__spark--2" aria-hidden="true">✧</span>
+        <span class="gate__spark gate__spark--3" aria-hidden="true">✦</span>
+        <span class="gate__spark gate__spark--4" aria-hidden="true">✵</span>
+
+        <!-- Invisible, finger-friendly hotspot positioned over the cat's nose/ring -->
+        <button type="button" id="noseBtn" class="gate__nose" aria-label="Enter site — tap the cat's nose">
+          <span class="gate__nose-glow" aria-hidden="true"></span>
+          <span class="gate__nose-ring" aria-hidden="true"></span>
+        </button>
+        <!-- Hint that appears after a few seconds -->
+        <div class="gate__hint" id="gateHint" aria-hidden="true">
+          <span class="gate__hint-arrow">↑</span>
+          <span class="gate__hint-text">tap the nose</span>
+        </div>
+      </div>
+      <p class="gate__tagline">Tap the cat's nose to enter</p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- Faint Goa scrapbook collage behind the centered column        -->
+  <!-- ============================================================= -->
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <!-- ============================================================= -->
+  <!-- MAIN SITE (hidden until the nose is tapped)                   -->
+  <!-- ============================================================= -->
+  <main id="site" class="site" aria-hidden="true">
+    <div class="column">
+
+      <!-- ===================================================== -->
+      <!-- 1. COVER / HERO                                        -->
+      <!-- ===================================================== -->
+      <section class="sec sec--cover reveal" id="cover">
+        <h1 class="cover__title">WE'RE<br />GETTING<br />MARRIED</h1>
+
+        <span class="cover__letter cover__letter--p">P</span>
+        <img src="./assets/deco-heart.png" class="deco cover__heart cover__heart--p" alt="" aria-hidden="true" />
+
+        <img src="./assets/deco-hands-rings.png" class="deco cover__hands" alt="" aria-hidden="true" />
+
+        <div class="cover__photo-wrap">
+          <img src="./assets/photo-cover-oval.png" class="cover__photo" alt="George and Pooja smiling together outdoors" />
+        </div>
+
+        <img src="./assets/deco-heart.png" class="deco cover__heart cover__heart--g" alt="" aria-hidden="true" />
+        <span class="cover__letter cover__letter--g">G</span>
+
+        <div class="cover__namerow">
+          <img src="./assets/deco-champagne-coupes.png" class="deco cover__coupes" alt="" aria-hidden="true" />
+          <div class="cover__names">
+            <p class="cover__couple">George &amp; Pooja</p>
+            <p class="cover__date">03.09.2026</p>
+          </div>
+          <img src="./assets/deco-cat.png" class="deco cover__cat" alt="" aria-hidden="true" />
+        </div>
+
+        <div class="checker-strip" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 2. WE LOVE YOU SO MUCH + DATE + RSVP CTA               -->
+      <!-- ===================================================== -->
+      <section class="sec sec--red sec--love reveal" id="love">
+        <div class="checker-strip checker-strip--down" aria-hidden="true"></div>
+
+        <div class="sec__pad">
+          <h2 class="h-display love__title">
+            <span class="love__line1">WE LOVE YOU</span>
+            <span class="love__line2">SO MUCH.</span>
+          </h2>
+
+          <img src="./assets/deco-dice-hearts.png" class="deco love__dice" alt="" aria-hidden="true" />
+
+          <p class="body body--right love__copy">
+            …and it would mean the world to us if you joined our special day.
+            Join us two celebrate the start of our forever together.
+          </p>
+          <img src="./assets/deco-pinky-hands.png" class="deco love__feet" alt="" aria-hidden="true" />
+
+          <!-- Calendar row -->
+          <div class="cal" role="img" aria-label="Wedding dates: October 3rd and 4th are marked">
+            <div class="cal__head">
+              <span>Oct</span><span>Friday</span><span>Saturday</span><span>Sunday</span>
+            </div>
+            <div class="cal__row">
+              <span class="cal__num cal__num--gandhi">
+                2
+                <img src="./assets/deco-gandhi.png" class="deco cal__gandhi" alt="" aria-hidden="true" />
+              </span>
+              <span class="cal__num cal__num--mark">3<span class="cal__check" aria-hidden="true">✓</span></span>
+              <span class="cal__num cal__num--mark">4<span class="cal__check" aria-hidden="true">✓</span></span>
+            </div>
+          </div>
+
+          <h2 class="h-display love__rsvp">RSVP</h2>
+          <p class="body love__rsvp-copy">
+            We want to have the warmest memories of the wedding. To help us plan,
+            we know ask you to fill out a short form
+          </p>
+
+          <div class="btn-wrap">
+            <a href="#rsvp" class="foil-btn" data-scroll="rsvp">Confirm attendance</a>
+          </div>
+        </div>
+
+        <div class="checker-strip checker-strip--up" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 3. VENUE + WEDDING TIMELINE                            -->
+      <!-- ===================================================== -->
+      <section class="sec sec--light sec--venue reveal" id="venue">
+        <div class="checker-strip" aria-hidden="true"></div>
+
+        <div class="sec__pad">
+          <div class="venue__head">
+            <img src="./assets/deco-sparkles.png" class="deco venue__sparkle" alt="" aria-hidden="true" />
+            <h2 class="h-display venue__title">VENUE</h2>
+            <img src="./assets/deco-cherries-bow.png" class="deco venue__cherries" alt="" aria-hidden="true" />
+          </div>
+
+          <div class="polaroid">
+            <img src="./assets/photo-venue.jpg" class="polaroid__img" alt="Aerial view of Beira Mar Beach Resort with palm trees and the beach" loading="lazy" />
+          </div>
+
+          <p class="venue__addr">
+            <strong>Beira Mar Beach Resort</strong><br />
+            Maria Hall, Benaulim, Goa 403716
+          </p>
+
+          <img src="./assets/deco-divider.png" class="deco divider" alt="" aria-hidden="true" />
+
+          <h2 class="h-display timeline__title">WEDDING TIMELINE</h2>
+
+          <!-- Snake-path timeline (fixed 360x540 design, scaled by JS to fit) -->
+          <div class="timeline">
+            <div class="timeline__inner">
+              <svg class="timeline__path" viewBox="0 0 360 540" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M95,72 L95,110 Q95,128 113,128 L247,128 Q265,128 265,146 L265,222 Q265,240 247,240 L178,240 Q160,240 160,258 L160,322 Q160,340 178,340 L247,340 Q265,340 265,358 L265,460"
+                      fill="none" stroke="#9e1b1b" stroke-width="2.5" />
+              </svg>
+
+              <img src="./assets/deco-crowd-party.png" class="deco tl-art tl-art--party" alt="" aria-hidden="true" />
+              <img src="./assets/deco-dj-crowd.png" class="deco tl-art tl-art--dj" alt="" aria-hidden="true" />
+
+              <div class="tl-node" style="--x:95px; --y:72px;">
+                <span class="tl-dot" aria-hidden="true"></span>
+                <div class="tl-label tl-label--above">
+                  <span class="tl-time">2 PM</span>
+                  <span class="tl-name">ROOM<br />CHECK-IN</span>
+                </div>
+              </div>
+
+              <div class="tl-node" style="--x:200px; --y:128px;">
+                <span class="tl-dot" aria-hidden="true"></span>
+                <div class="tl-label tl-label--above-left">
+                  <span class="tl-time tl-time--accent">7 PM</span>
+                  <span class="tl-name tl-name--accent">Too Glam To<br />Give A Damn</span>
+                </div>
+              </div>
+
+              <div class="tl-node" style="--x:265px; --y:240px;">
+                <span class="tl-dot" aria-hidden="true"></span>
+                <div class="tl-label tl-label--right">
+                  <span class="tl-time">9 AM</span>
+                  <span class="tl-name">Breakfast</span>
+                </div>
+              </div>
+
+              <div class="tl-node" style="--x:160px; --y:300px;">
+                <span class="tl-dot" aria-hidden="true"></span>
+                <div class="tl-label tl-label--left">
+                  <span class="tl-time">2 PM</span>
+                  <span class="tl-name">Lunch</span>
+                </div>
+              </div>
+
+              <div class="tl-node" style="--x:265px; --y:460px;">
+                <span class="tl-dot" aria-hidden="true"></span>
+                <div class="tl-label tl-label--right">
+                  <span class="tl-time">10 AM</span>
+                  <span class="tl-name">Room<br />checkout</span>
+                </div>
+              </div>
+
+              <div class="tl-node" style="--x:76px; --y:470px;">
+                <div class="tl-label tl-label--below">
+                  <span class="tl-time tl-time--accent">5 PM</span>
+                  <span class="tl-name tl-name--accent">One Last Sunset</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diamond-strip" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 4. ACCOMMODATION + TRANSPORT + GIFTS                   -->
+      <!-- ===================================================== -->
+      <section class="sec sec--red sec--accom reveal" id="accommodation">
+        <div class="scallop-strip" aria-hidden="true"></div>
+
+        <div class="sec__pad">
+          <h2 class="h-display accom__title">ACCOMMODATION</h2>
+          <p class="body body--center">
+            We've booked the entire Beira Mar Beach Resort for the celebration.
+            Check-in starts from 2 PM on 3rd October (let us know in advance if you
+            need early check-in). Lunch can be ordered via room service or at the
+            nearby beach shack, just a 5-minute walk from Benaulim Beach.
+            Checkout: 11 AM on 4th October.
+          </p>
+
+          <img src="./assets/deco-divider.png" class="deco divider divider--light" alt="" aria-hidden="true" />
+
+          <h2 class="h-display accom__title">TRANSPORTATION</h2>
+          <p class="body body--center">
+            Guests are requested to arrange their own transportation. Goa Miles,
+            taxis, and rental cars are easily available.
+            Located near Benaulim Beach, the venue is 31 km from Dabolim Airport
+            and 69 km from Manohar International Airport. Nearest railway station
+            and bus stand: Margao. Goa Miles is easily available, along with
+            private taxis and rental cars (contacts coming soon 👀).
+          </p>
+
+          <h2 class="h-display gift__title">WEDDING GIFTS</h2>
+          <div class="gift">
+            <span class="gift__bow" aria-hidden="true">
+              <img src="./assets/deco-bow.png" alt="" />
+            </span>
+            <div class="gift__content">
+              <p class="body body--center">
+                No gifts, please ❤️<br />
+                Seriously. Having all our favourite people in one place is the
+                whole reason we're doing this.<br />
+                But if ignoring instructions is one of your personality traits and
+                you absolutely must gift something, we've added a link below.
+                Just know that your presence, laughter, and questionable dance
+                moves are worth far more to us 💃✨
+              </p>
+              <p class="gift__links">
+                <!-- TODO: replace # with George's real UPI link -->
+                <a href="#" class="upi-link">George – UPI LINK</a><br />
+                <!-- TODO: replace # with Pooja's real UPI link -->
+                <a href="#" class="upi-link">Pooja – UPI LINK</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 5. GUEST CHAT                                          -->
+      <!-- ===================================================== -->
+      <section class="sec sec--red sec--chat reveal" id="chat">
+        <div class="sec__pad">
+          <h2 class="h-display chat__title">GUEST CHAT</h2>
+          <p class="body body--center">
+            Join our guest chat for the update Share your photo and videos from
+            the celebration.
+          </p>
+          <div class="btn-wrap chat__btn-wrap">
+            <!-- TODO: replace # with WhatsApp / group chat invite link -->
+            <a href="#" class="foil-btn" target="_blank" rel="noopener">Join Chat</a>
+            <svg class="chat__envelope" viewBox="0 0 64 48" aria-hidden="true">
+              <rect x="2" y="6" width="60" height="40" rx="4" fill="#fff" stroke="#9e1b1b" stroke-width="2"/>
+              <path d="M2 9 L32 30 L62 9" fill="none" stroke="#9e1b1b" stroke-width="2"/>
+              <path d="M32 33 c-4-6-11-4-11 1 0 4 6 7 11 10 5-3 11-6 11-10 0-5-7-7-11-1z" fill="#9e1b1b"/>
+            </svg>
+          </div>
+        </div>
+        <div class="diamond-strip" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 6. CONTACT                                             -->
+      <!-- ===================================================== -->
+      <section class="sec sec--light sec--contact reveal" id="contact">
+        <div class="sec__pad">
+          <img src="./assets/deco-sparkles.png" class="deco contact__sparkle contact__sparkle--l" alt="" aria-hidden="true" />
+          <img src="./assets/deco-sparkles.png" class="deco contact__sparkle contact__sparkle--r" alt="" aria-hidden="true" />
+
+          <h2 class="h-display contact__title">CONTACT</h2>
+          <p class="body body--center">
+            Have a Question or a little surprise for us? Feel free to reach out to us<br />
+            <strong>George – <a href="tel:+918586885784" class="tel">+91 8586885784</a></strong><br />
+            <strong>Pooja – <a href="tel:+919755306742" class="tel">+91 9755306742</a></strong>
+          </p>
+          <img src="./assets/deco-champagne-bucket.png" class="deco contact__bucket" alt="" aria-hidden="true" />
+        </div>
+
+        <!-- ===== 7. WE CAN'T WAIT (lives on same light panel) ===== -->
+        <div class="sec__pad celebrate">
+          <h2 class="h-display celebrate__title">WE CAN'T WAIT TO CELEBRATE WITH YOU!</h2>
+          <div class="celebrate-photo">
+            <img src="./assets/photo-kiss.jpg" class="celebrate-photo__img" alt="George and Pooja sharing a kiss on the cheek, wearing sunglasses" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 8. CLOSING — See you soon / G & P                      -->
+      <!-- ===================================================== -->
+      <section class="sec sec--closing reveal" id="closing">
+        <div class="closing__panel">
+          <p class="closing__soon">See you soon…</p>
+          <div class="closing__art">
+            <img src="./assets/deco-car-goa.png" class="deco closing__car" alt="" aria-hidden="true" />
+            <img src="./assets/deco-cat.png" class="deco closing__cat" alt="" aria-hidden="true" />
+          </div>
+          <p class="closing__monogram">G &amp; P</p>
+          <img src="./assets/deco-hearts-scatter.png" class="deco closing__hearts closing__hearts--l" alt="" aria-hidden="true" />
+          <img src="./assets/deco-hearts-scatter.png" class="deco closing__hearts closing__hearts--r" alt="" aria-hidden="true" />
+        </div>
+
+        <!-- Goa beach finale photo (18.png) -->
+        <img src="./assets/photo-venue.jpg" class="closing__beach" alt="Beira Mar Beach Resort, Goa" loading="lazy" />
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- 9. RSVP FORM                                           -->
+      <!-- ===================================================== -->
+      <section class="sec sec--rsvp reveal" id="rsvp">
+        <div class="sec__pad">
+          <h2 class="rsvp__logo">RSVP</h2>
+
+          <form id="rsvpForm" class="rsvp-form" novalidate>
+            <div class="field field--full">
+              <label for="f-name">NAME</label>
+              <input type="text" id="f-name" name="name" required autocomplete="name" />
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="f-phone">PHONE NUMBER</label>
+                <input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="tel" />
+              </div>
+              <div class="field">
+                <label for="f-guests">NUMBER OF GUESTS</label>
+                <input type="number" id="f-guests" name="guests" min="1" max="20" required inputmode="numeric" />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="f-checkin">CHECK IN DATE &amp; TIME</label>
+                <input type="datetime-local" id="f-checkin" name="checkin" />
+              </div>
+              <div class="field">
+                <label for="f-checkout">CHECK OUT DATE &amp; TIME</label>
+                <input type="datetime-local" id="f-checkout" name="checkout" />
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label for="f-message">MESSAGE</label>
+              <textarea id="f-message" name="message" rows="2"></textarea>
+            </div>
+
+            <p class="rsvp-form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
+
+            <div class="rsvp-form__footer">
+              <button type="submit" class="send-btn">SEND</button>
+            </div>
+          </form>
+
+          <!-- Decorative doodle strip -->
+          <div class="rsvp-doodles" aria-hidden="true">
+            <img src="./assets/deco-cherries-bow.png" class="deco rsvp-doodles__item" alt="" />
+            <img src="./assets/deco-champagne-coupes.png" class="deco rsvp-doodles__item" alt="" />
+            <img src="./assets/deco-champagne-bucket.png" class="deco rsvp-doodles__item rsvp-doodles__item--wide" alt="" />
+            <img src="./assets/deco-dice-hearts.png" class="deco rsvp-doodles__item" alt="" />
+            <img src="./assets/deco-sparkles.png" class="deco rsvp-doodles__item rsvp-doodles__item--small" alt="" />
+            <img src="./assets/deco-cherries-bow.png" class="deco rsvp-doodles__item rsvp-doodles__flip" alt="" />
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.column -->
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
