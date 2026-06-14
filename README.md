@@ -31,12 +31,19 @@ reference / re-exporting and is **not** required to deploy.
 All of these are marked in the code with `TODO` comments — search the project
 for `TODO` to jump straight to them.
 
-| What | Where | How |
-|------|-------|-----|
-| **George's UPI / gift link** | `index.html` → "WEDDING GIFTS" | replace `href="#"` on the `George – UPI LINK` anchor |
-| **Pooja's UPI / gift link** | `index.html` → "WEDDING GIFTS" | replace `href="#"` on the `Pooja – UPI LINK` anchor |
-| **Guest chat link** | `index.html` → "GUEST CHAT" | replace `href="#"` on the `Join Chat` button (e.g. your WhatsApp invite URL) |
-| **RSVP backend** | `script.js` → `// TODO: connect RSVP backend` | wire the form to Google Sheets / Formspree / email (see below) |
+These are now **wired up** (change them here if anything updates):
+
+| What | Where | Current value |
+|------|-------|---------------|
+| **RSVP** ("Confirm attendance" + RSVP "SEND") | `index.html` (Confirm attendance) + `script.js` `RSVP_FORM_URL` | Google Form `…/1FAIpQLScR6OkuWN8bRwki3-NhoUS9tMou-AbQmkaTSvfYA_mA7aF-KA/viewform` |
+| **Guest chat** ("Join Chat") | `index.html` → "GUEST CHAT" | WhatsApp `https://wa.me/919755306742` |
+| **UPI payment** | `index.html` → "WEDDING GIFTS" | QR `assets/upi-qr.jpg` + deep link `upi://pay?pa=makeupbypoojanair@oksbi` |
+
+> The RSVP Google Form must be **published / accepting responses** for guests to
+> reach it. The UPI `upi://` "Tap to pay" link only works on phones with a UPI
+> app installed; on desktop guests scan the QR instead.
+> To add **George's** UPI too, drop a second QR in `assets/` and add it next to
+> the current one in the WEDDING GIFTS block.
 
 Phone numbers, the address, dates and all body copy are already filled in with
 the real content directly in `index.html`.
@@ -69,28 +76,19 @@ be desaturated automatically. If you want full colour, remove the
 
 ---
 
-## 📝 Connecting the RSVP form
+## 📝 RSVP (Google Form)
 
-The form currently **validates input and logs the data to the browser console**,
-then shows a thank-you message. To actually receive RSVPs, open `script.js`,
-find the `// TODO: connect RSVP backend` block, and pick one option:
+RSVPs are collected through the couple's **Google Form**. Both the
+"Confirm attendance" button and the on-page RSVP "SEND" button open that form in
+a new tab. The on-page form fields are kept purely as a styled preview — the real
+answers are submitted in the Google Form.
 
-**Formspree (easiest, no server):**
-1. Create a free form at [formspree.io](https://formspree.io) → copy your form ID.
-2. Replace the `console.log(...)` block with:
-   ```js
-   fetch("https://formspree.io/f/YOUR_FORM_ID", {
-     method: "POST",
-     headers: { "Accept": "application/json", "Content-Type": "application/json" },
-     body: JSON.stringify(data)
-   }).then(function () {
-     form.reset();
-     status.textContent = "Thank you! Your RSVP is in 💌";
-   });
-   ```
+To change the form, update the URL in **two** places (they must match):
+- `index.html` → the "Confirm attendance" anchor `href`
+- `script.js` → the `RSVP_FORM_URL` constant
 
-**Google Sheets:** use a Google Apps Script Web App as the endpoint and `fetch`
-to it the same way.
+Make sure the form is **published and accepting responses** (in Google Forms:
+Send / Publish → anyone with the link). Prefer the public `…/viewform` link.
 
 ---
 

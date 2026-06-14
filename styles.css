@@ -420,6 +420,21 @@ img { display: block; max-width: 100%; }
 .gift__content { position: relative; z-index: 1; }
 .gift__title { text-align: center; font-size: 1.7rem; letter-spacing: 0.06em; margin: 30px 0 0; font-weight: 600; }
 .gift__links { text-align: center; margin-top: 18px; }
+.gift__pay { text-align: center; margin-top: 20px; }
+.gift__qr {
+  width: 190px;
+  max-width: 64%;
+  margin: 0 auto 12px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.3);
+}
+.gift__pay-text {
+  font-size: 0.82rem;
+  color: var(--on-red-soft);
+  margin: 0 0 4px;
+}
 .upi-link {
   font-family: var(--display);
   font-weight: 600;

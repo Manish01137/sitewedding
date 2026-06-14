@@ -204,54 +204,17 @@
   }
 
   /* ----------------------------------------------------------- */
-  /*  9. RSVP FORM — validation + (placeholder) submit            */
+  /*  9. RSVP FORM — collected via the couple's Google Form        */
   /* ----------------------------------------------------------- */
+  var RSVP_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScR6OkuWN8bRwki3-NhoUS9tMou-AbQmkaTSvfYA_mA7aF-KA/viewform";
   var form = document.getElementById("rsvpForm");
   var status = document.getElementById("rsvpStatus");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    // RSVPs are collected in the couple's Google Form — open it for the guest.
+    window.open(RSVP_FORM_URL, "_blank", "noopener");
     status.style.color = "";
-
-    var required = [
-      form.querySelector("#f-name"),
-      form.querySelector("#f-phone"),
-      form.querySelector("#f-guests")
-    ];
-
-    var firstInvalid = null;
-    required.forEach(function (input) {
-      var ok = input.value.trim() !== "";
-      input.classList.toggle("invalid", !ok);
-      if (!ok && !firstInvalid) firstInvalid = input;
-    });
-
-    if (firstInvalid) {
-      status.style.color = "#d33";
-      status.textContent = "Please fill in your name, phone number and number of guests.";
-      firstInvalid.focus();
-      return;
-    }
-
-    var data = {
-      name: form.name.value.trim(),
-      phone: form.phone.value.trim(),
-      guests: form.guests.value.trim(),
-      checkin: form.checkin.value,
-      checkout: form.checkout.value,
-      message: form.message.value.trim()
-    };
-
-    // TODO: connect RSVP backend (Google Sheet / Formspree / email).
-    //   Example with Formspree:
-    //   fetch("https://formspree.io/f/XXXXXXX", {
-    //     method: "POST",
-    //     headers: { "Accept": "application/json", "Content-Type": "application/json" },
-    //     body: JSON.stringify(data)
-    //   }).then(...);
-    console.log("RSVP submitted:", data);
-
-    form.reset();
-    status.textContent = "Thank you! Your RSVP is in 💌";
+    status.textContent = "Opening our RSVP form… 💌";
   });
 })();
